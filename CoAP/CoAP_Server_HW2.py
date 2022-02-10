@@ -11,6 +11,7 @@
 # described in the accompanying LICENSE file.
 
 import asyncio
+from aiocoap.numbers.constants import COAP_PORT
 
 import aiocoap.resource as resource
 import aiocoap
@@ -41,9 +42,17 @@ class BlockResource(resource.Resource):
 async def main():
 
     flag = False
-    if flag == False:
-        print("CoAP Server started")
-        flag = True
+
+    print("Enter ip of host")
+    ip = input()
+    
+    print("Enter port of host. Enter None for default port")
+    port = input()
+
+    if port == "None":
+        port = COAP_PORT
+    
+    address = (ip,port)
 
     root = resource.Site()
 
@@ -51,8 +60,14 @@ async def main():
     root.add_resource(['10KB'], BlockResource("DataFiles/10KB"))
     root.add_resource(['1MB'], BlockResource("DataFiles/1MB"))
     root.add_resource(['10MB'], BlockResource("DataFiles/10MB"))
+    
+    print(f"Server Made at: ip: {address[0]}, port: {address[1]}")
 
-    await aiocoap.Context.create_server_context(root, bind=("localhost",None))
+    await aiocoap.Context.create_server_context(root, bind=address)
+
+    if flag == False:
+        print("CoAP Server started")
+        flag = True
 
     await asyncio.get_running_loop().create_future()
 

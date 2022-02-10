@@ -282,7 +282,6 @@ class TCPServer(_TCPPooling, interfaces.TokenInterface):
 
         bind = bind or ('::', None)
         bind = (bind[0], bind[1] + (self._default_port - COAP_PORT) if bind[1] else self._default_port)
-        print(f"Server Made at: ip: {bind[0]}, port: {bind[1]}")
 
         def new_connection():
             c = TcpConnection(self, log, loop, is_server=True)
