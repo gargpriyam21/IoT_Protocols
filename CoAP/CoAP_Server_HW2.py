@@ -52,7 +52,7 @@ async def main():
     root.add_resource(['1MB'], BlockResource("DataFiles/1MB"))
     root.add_resource(['10MB'], BlockResource("DataFiles/10MB"))
 
-    await aiocoap.Context.create_server_context(root)
+    await aiocoap.Context.create_server_context(root, bind=("localhost",None))
 
     await asyncio.get_running_loop().create_future()
 
