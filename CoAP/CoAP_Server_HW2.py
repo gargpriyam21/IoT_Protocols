@@ -52,7 +52,7 @@ async def main():
     if port == "None":
         port = COAP_PORT
     
-    address = (ip,port)
+    address = (ip,str(port))
 
     root = resource.Site()
 
