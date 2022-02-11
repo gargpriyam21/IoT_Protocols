@@ -12,12 +12,17 @@
 
 import asyncio
 from sys import getsizeof
+import time
+import numpy as np
 
 from aiocoap import *
 
 async def main():
     protocol = await Context.create_client_context()
-
+    print("Enter server IP Address:")
+    IP = input()
+    print("Enter server access port:")
+    port = input()
     print("What file would you like to request: 100B, 10KB, 1MB, 10MB")
     requestedFile = input()
 
@@ -29,15 +34,20 @@ async def main():
 
     print("How many times do you want to receive the file?")
     requestedRepeats = input()
-
+    
     if requestedRepeats.isdigit() and int(requestedRepeats) != 0:
         print("Getting " + requestedFile + " " + requestedRepeats + " times")
     else:
         print("Error: Invalid input. Must be positive integer")
         exit()
-
-    for i in range(1, int(requestedRepeats)+1):
-        request = Message(code=GET, uri='coap://localhost/' + requestedFile)
+    #Data to track during download
+    startTime = 0#start timer
+    timer = [0] * int(requestedRepeats)
+    totalSize = 0;#Track total size of data being transfered
+    
+    for i in range(0, int(requestedRepeats)):
+        startTime = time.time()
+        request = Message(code=GET, uri="coap://"+IP+":"+port+"/" + requestedFile)
 
         try:
             response = await protocol.request(request).response
@@ -46,8 +56,31 @@ async def main():
             print(e)
         else:
             #print(f"Payload: {response.payload}")
-            print(f"Payload Number: {i}")
-            print(f"Size: {getsizeof(response.payload)}")
+            #print(f"Payload Number: {i}")
+            #print(f"Size: {getsizeof(response.payload)}")
+            timer[i] = round((time.time()-startTime),3)
+            totalSize += getsizeof(response.payload)
+
+    #define file size in KB
+    fileSize = 0
+    if requestedFile == "100B":
+        fileSize = 0.1
+    elif requestedFile == "10KB":
+        fileSize = 10
+    elif requestedFile == "1MB":
+        fileSize = 1000
+    elif requestedFile == "10MB":
+        fileSize = 10000
+    #Calculate and display statistics
+    meanThroughput = np.average(fileSize / np.asarray(timer))
+    stdThroughput = np.std(fileSize / np.asarray(timer))
+    print(f"Total time elapsed: {np.sum(timer)} seconds")
+    print(f" - Average Throughput: {meanThroughput} KB per Second")
+    print(f" - Std. Dev. of Throughput: {stdThroughput} KB per Second")
+    print(f"Total data transfered: {totalSize} bits")
+    print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(requestedRepeats)) / (fileSize*1000)}")
+    
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
