@@ -46,7 +46,7 @@ async def main():
     print("Enter ip of host")
      ip = input()
     
-    # print("Enter port of host. Enter None for default port")
+    print("Enter port of host. Enter None for default port")
     port = input()
 
     if port == "None":
