@@ -130,3 +130,8 @@ def downloadFiles(url):
 if __name__ == '__main__':
     downloadFiles(IP)
     
+'''
+Refrences:
+https://www.tecmint.com/python-simplehttpserver-to-create-webserver-or-serve-files-instantly/
+https://appdividend.com/2022/01/19/python-mean/
+''''
