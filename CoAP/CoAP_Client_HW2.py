@@ -5,7 +5,7 @@
 # Copyright (c) 2012-2014 Maciej Wasilak <http://sixpinetrees.blogspot.com/>,
 #               2013-2014 Christian Amsüss <c.amsuess@energyharvesting.at>
 #
-# Editted by Jordan Boerger (2022)
+# Editted by Jordan Boerger and Brendan Driscoll (2022)
 #
 # aiocoap is free software, this file is published under the MIT license as
 # described in the accompanying LICENSE file.
@@ -58,29 +58,31 @@ async def main():
             #print(f"Payload: {response.payload}")
             #print(f"Payload Number: {i}")
             #print(f"Size: {getsizeof(response.payload)}")
-            timer[i] = round((time.time()-startTime),3)
-            totalSize += getsizeof(response.payload)
+            timer[i] = (time.time()-startTime)
+            totalSize += response.payload.__sizeof__()
 
     #define file size in KB
     fileSize = 0
     if requestedFile == "100B":
         fileSize = 0.1
     elif requestedFile == "10KB":
-        fileSize = 10
+        fileSize = 10.240
     elif requestedFile == "1MB":
-        fileSize = 1000
+        fileSize = 1048.576
     elif requestedFile == "10MB":
-        fileSize = 10000
+        fileSize = 10320.162
     #Calculate and display statistics
-    meanThroughput = np.average(fileSize / np.asarray(timer))
-    stdThroughput = np.std(fileSize / np.asarray(timer))
+    #multiply by 8 to convert from bits to bytes
+    meanThroughput = np.average(fileSize / np.asarray(timer)) * 8
+    stdThroughput = np.std(fileSize / np.asarray(timer)) * 8
     print(f"Total time elapsed: {np.sum(timer)} seconds")
     print(f" - Average Throughput: {meanThroughput} KB per Second")
     print(f" - Std. Dev. of Throughput: {stdThroughput} KB per Second")
     print(f"Total data transfered: {totalSize} bits")
+    print(f" - Total App Layer Data per File: {(totalSize/int(requestedRepeats))}")
     print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(requestedRepeats)) / (fileSize*1000)}")
-    
+    time.sleep(0.1)
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
+    time.sleep(0.1)
