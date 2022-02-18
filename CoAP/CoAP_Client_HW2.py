@@ -59,7 +59,12 @@ async def main():
             #print(f"Payload Number: {i}")
             #print(f"Size: {getsizeof(response.payload)}")
             timer[i] = round((time.time()-startTime),3)
-            totalSize += getsizeof(response.payload)
+            totalSize += response.mtype.__sizeof__() +\
+                response.code.__sizeof__() +\
+                response.opt.__sizeof__() +\
+                response.mid.__sizeof__() +\
+                response.token.__sizeof__() +\
+                response.payload.__sizeof__()
 
     #define file size in KB
     fileSize = 0
@@ -78,9 +83,14 @@ async def main():
     print(f" - Average Throughput: {meanThroughput} KB per Second")
     print(f" - Std. Dev. of Throughput: {stdThroughput} KB per Second")
     print(f"Total data transfered: {totalSize} bits")
+    print(f" - Total App Layer Data per File: {(totalSize/int(requestedRepeats))}")
     print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(requestedRepeats)) / (fileSize*1000)}")
-    
+    time.sleep(0.1)
 
 if __name__ == "__main__":
     asyncio.run(main())
+    time.sleep(0.1)
+    
+    
+    
     
