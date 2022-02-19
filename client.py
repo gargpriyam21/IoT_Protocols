@@ -1,4 +1,4 @@
-IP="http://10.155.15.81:8000/"
+IP="http://10.153.5.9:8000/"
 
 from pathlib import Path
 from statistics import mean
@@ -14,6 +14,7 @@ ten=[]
 one=[]
 tenmb=[]
 totalSize=0
+
 def averageOfList(num):
     sumOfNumbers = 0
     for t in num:
@@ -49,7 +50,11 @@ def dinow(url,path):
             if not link.startswith('.'):
                
                 downloadFiles(urljoin(url, link))
-
+    else:
+        pass
+        # with open(path, 'w') as f:
+            
+        #     f.write(content)
 
 def findLinks(content):
     soup = BeautifulSoup(content)
@@ -61,73 +66,84 @@ def downloadFiles(url):
     global totalSize
     path = url.lstrip('/')
     size = urlparse(path).path.lstrip("/") +""
+
+    file_name_to_size = {
+    '100B': 100,
+    '10KB': 10240,
+    '1MB': 1048576,
+    '10MB': 10320162,
+    }   
+
     if size=="100B":
-        
-        totalSize=0
+        totalSize = 0
         for i in range(0,10000):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
-            hun.append((100/(s2-s1)))
-        
+            hun.append(file_name_to_size["100B"]/(s2-s1))
        
         print("Mean 100B:- ")
         print(mean(hun))
         print("Std Dev 100B:- ")
         print(sd_calc(hun))
-        print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(10000)) / (0.1*1000)}")
+        overhead = (totalSize/int(10000)) / file_name_to_size["100B"]
+        print(f" - Total data transfered per file [bytes] divided by file size [bytes]: {(overhead)}")
         
     elif size=="10KB":
-       
-        totalSize=0
+        totalSize = 0
         for i in range(0,1000):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
-            ten.append(10240/(s2-s1))
+            ten.append(file_name_to_size["10KB"]/(s2-s1))
        
         print("Mean 10kB:- ")
         print(mean(ten))
         print("Std Dev 10kB:- ")
         print(sd_calc(ten))
-        print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(1000)) / (10*1000)}")
+        overhead = (totalSize/int(1000)) / file_name_to_size["10KB"]
+        print(f" - Total data transfered per file [bytes] divided by file size [bytes]: {(overhead)}")
 
  
     elif size=="1MB":
-        totalSize=0
+        totalSize = 0
         for i in range(0,100):
             s1=time.time()
             dinow(url,path) 
             s2=time.time()
-            one.append(1048576/(s2-s1))
+            one.append(file_name_to_size["1MB"]/(s2-s1))
        
         print("Mean 1MB:- ")
         print(mean(one))
         print("Std Dev 1MB:- ")
         print(sd_calc(one))
-        print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(100)) / (1000*1000)}")
+        overhead = (totalSize/int(100)) / file_name_to_size["1MB"]
+        print(f" - Total data transfered per file [bytes] divided by file size [bytes]: {(overhead)}")
 
     elif size=="10MB":
-        totalSize=0
+        totalSize = 0
         for i in range(0,10):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
        
-            tenmb.append(10320162/(s2-s1))
+            tenmb.append(file_name_to_size["10MB"]/(s2-s1))
        
         print("Mean 10MB:- ")
         print(mean(tenmb))
         print("Std Dev 10MB:- ")
         print(sd_calc(tenmb))
-        print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(10)) / (10000*1000)}")
+        overhead = (totalSize/int(10)) / file_name_to_size["10MB"]
+        print(f" - Total data transfered per file [bytes] divided by file size [bytes]: {(overhead)}")
 
     else:
         dinow(url,path)               
 
-    
-
-
 if __name__ == '__main__':
     downloadFiles(IP)
     
+'''
+Refrences:
+https://www.tecmint.com/python-simplehttpserver-to-create-webserver-or-serve-files-instantly/
+https://appdividend.com/2022/01/19/python-mean/
+'''
