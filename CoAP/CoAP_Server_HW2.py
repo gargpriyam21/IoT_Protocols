@@ -5,7 +5,7 @@
 # Copyright (c) 2012-2014 Maciej Wasilak <http://sixpinetrees.blogspot.com/>,
 #               2013-2014 Christian Amsüss <c.amsuess@energyharvesting.at>
 #
-# Editted by Jordan Boerger (2022)
+# Editted by Jordan Boerger and Brendan Driscoll (2022)
 #
 # aiocoap is free software, this file is published under the MIT license as
 # described in the accompanying LICENSE file.
