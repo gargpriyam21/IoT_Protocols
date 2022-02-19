@@ -49,10 +49,7 @@ def dinow(url,path):
             if not link.startswith('.'):
                
                 downloadFiles(urljoin(url, link))
-    else:
-        with open(path, 'w') as f:
-            
-            f.write(content)
+
 
 def findLinks(content):
     soup = BeautifulSoup(content)
@@ -61,64 +58,68 @@ def findLinks(content):
        
         yield a.get('href')
 def downloadFiles(url):
+    global totalSize
     path = url.lstrip('/')
     size = urlparse(path).path.lstrip("/") +""
     if size=="100B":
         
+        totalSize=0
         for i in range(0,10000):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
-            hun.append(s2-s1)
+            hun.append((100/(s2-s1)))
+        
        
         print("Mean 100B:- ")
-        print(0.1/mean(hun))
+        print(mean(hun))
         print("Std Dev 100B:- ")
-        print(0.1/sd_calc(hun))
+        print(sd_calc(hun))
         print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(10000)) / (0.1*1000)}")
         
     elif size=="10KB":
-        
+       
+        totalSize=0
         for i in range(0,1000):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
-            ten.append(s2-s1)
+            ten.append(10240/(s2-s1))
        
         print("Mean 10kB:- ")
-        print(10/mean(ten))
+        print(mean(ten))
         print("Std Dev 10kB:- ")
-        print(10/sd_calc(ten))
+        print(sd_calc(ten))
         print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(1000)) / (10*1000)}")
 
  
     elif size=="1MB":
-        
+        totalSize=0
         for i in range(0,100):
             s1=time.time()
             dinow(url,path) 
             s2=time.time()
-            one.append(s2-s1)
+            one.append(1048576/(s2-s1))
        
         print("Mean 1MB:- ")
-        print(1000/mean(one))
+        print(mean(one))
         print("Std Dev 1MB:- ")
-        print(1000/sd_calc(one))
+        print(sd_calc(one))
         print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(100)) / (1000*1000)}")
 
     elif size=="10MB":
-        
+        totalSize=0
         for i in range(0,10):
             s1=time.time()
             dinow(url,path)
             s2=time.time()
        
-            tenmb.append(s2-s1)
+            tenmb.append(10320162/(s2-s1))
        
         print("Mean 10MB:- ")
-        print(10000/mean(tenmb))
+        print(mean(tenmb))
         print("Std Dev 10MB:- ")
-        print(10000/sd_calc(tenmb))
+        print(sd_calc(tenmb))
         print(f" - Total data transfered per file [bits] divided by file size [bits]: {(totalSize/int(10)) / (10000*1000)}")
 
     else:
