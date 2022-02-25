@@ -58,27 +58,23 @@ async def main():
             #print(f"Payload: {response.payload}")
             #print(f"Payload Number: {i}")
             #print(f"Size: {getsizeof(response.payload)}")
-            timer[i] = round((time.time()-startTime),3)
-            totalSize += response.mtype.__sizeof__() +\
-                response.code.__sizeof__() +\
-                response.opt.__sizeof__() +\
-                response.mid.__sizeof__() +\
-                response.token.__sizeof__() +\
-                response.payload.__sizeof__()
+            timer[i] = (time.time()-startTime)
+            totalSize += response.payload.__sizeof__()
 
     #define file size in KB
     fileSize = 0
     if requestedFile == "100B":
         fileSize = 0.1
     elif requestedFile == "10KB":
-        fileSize = 10
+        fileSize = 10.240
     elif requestedFile == "1MB":
-        fileSize = 1000
+        fileSize = 1048.576
     elif requestedFile == "10MB":
-        fileSize = 10000
+        fileSize = 10320.162
     #Calculate and display statistics
-    meanThroughput = np.average(fileSize / np.asarray(timer))
-    stdThroughput = np.std(fileSize / np.asarray(timer))
+    #multiply by 8 to convert from bits to bytes
+    meanThroughput = np.average(fileSize / np.asarray(timer)) * 8
+    stdThroughput = np.std(fileSize / np.asarray(timer)) * 8
     print(f"Total time elapsed: {np.sum(timer)} seconds")
     print(f" - Average Throughput: {meanThroughput} KB per Second")
     print(f" - Std. Dev. of Throughput: {stdThroughput} KB per Second")
