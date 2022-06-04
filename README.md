@@ -1,4 +1,6 @@
-# IoT_HW2_Group11
+# IoT_Protocols
+
+Python Project used to see the differences in the performance achieved by different IoT protocols i.e. MQTT, COAP, and HTTP 
 
 # HTTP
 ## Server
@@ -99,16 +101,3 @@ python3 wireshark_parse_qos1.py
 ```
 
 The overhead of each file will be printed.
-
-# Instructor
-- Dr. Muhammad Shahzad (mshahza@ncsu.edu )
-
-# Teaching Assistants
-- Hassan Ali Khan (hakhan@ncsu.edu)
-
-# Team
-- Priyam Garg (pgarg6@ncsu.edu)
-- Divyang Doshi	(ddoshi2@ncsu.edu)
-- Brendan Driscoll (bhdrisco@ncsu.edu)
-- Jordan Boerger (jwboerge@ncsu.edu)
-- Vishal Veera Reddy (vveerar2@ncsu.edu)
