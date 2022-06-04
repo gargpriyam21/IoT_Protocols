@@ -1,7 +1,6 @@
 # IoT_Protocols
 
-Python Project used to see the differences in the performance achieved by different IoT protocols i.e. MQTT, COAP, and HTTP 
-
+In this Python Project we will be testing three communication protocols namely HTTP, CoAP and MQTT (QoS 1 and 2) used in the IoT area. The goal will be to determine which protocol suits the transfer of different amounts of data, the length of time to transfer said data, and the amount of overhead generated within the header for each subject.
 # HTTP
 ## Server
 goto the directory where the data files are run the following cmd in terminal python3 -m http.server
