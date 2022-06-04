@@ -1,7 +1,3 @@
-# IoT_HW2_Group11
-
-This repository is created for the sole purpose of uploading codes related to the Project 2 for the course CSC 573 Internet Protocols Fall 2021 of North Carolina State University.
-
 # MQTT
 
 ## Environment
@@ -65,17 +61,3 @@ python3 wireshark_parse_qos1.py
 ```
 
 The overhead of each file will be printed.
-
-# Instructor
-- Dr. Muhammad Shahzad (mshahza@ncsu.edu )
-
-# Teaching Assistants
-- Hassan Ali Khan (hakhan@ncsu.edu)
-
-# Team
-- Priyam Garg (pgarg6@ncsu.edu)
-- Divyang Doshi	(ddoshi2@ncsu.edu)
-- Brendan Driscoll (bhdrisco@ncsu.edu)
-- Jordan Boerger (jwboerge@ncsu.edu)
-- Vishal Veera Reddy (vveerar2@ncsu.edu)
-
